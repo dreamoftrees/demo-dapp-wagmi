@@ -1,3 +1,5 @@
+// import { Environment, ImmutableConfiguration } from "@imtbl/config";
+import { passport, config } from "@imtbl/sdk";
 import { ThemeProvider } from '@0xsequence/design-system'
 
 import { sequenceWallet } from '@0xsequence/wagmi-connector'
@@ -56,6 +58,19 @@ const polygonAmoy: Chain = {
 }
 
 const App = () => {
+
+  // Init Immmutable Passport
+  const passportConfig = {
+    baseConfig: new config.ImmutableConfiguration({environment: config.Environment.SANDBOX}),
+    clientId: '',
+    logoutRedirectUri: 'http://localhost:4000/demo-dapp-wagmi',
+    redirectUri: 'http://localhost:4000/demo-dapp-wagmi/login/callback',
+    scope: 'openid offline_access email transact',
+    audience: 'platform_api'
+  }
+  const passportInstance = new passport.Passport(passportConfig);
+  passportInstance.connectEvm();
+
   const urlParams = new URLSearchParams(window.location.search)
   let walletAppURL = 'https://sequence.app'
 
